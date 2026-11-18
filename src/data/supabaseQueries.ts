@@ -28,3 +28,25 @@ export async function fetchProductById(id: string) {
   if (error) throw error;
   return data;
 }
+
+export async function addToCartRemote(userId: string, productId: string, quantity: number, variantColor?: string) {
+  const { data, error } = await supabase
+    .from('cart_items')
+    .upsert({
+      user_id: userId,
+      product_id: productId,
+      quantity,
+      variant_color: variantColor || null,
+    }, { onConflict: 'user_id,product_id,variant_color' });
+  if (error) throw error;
+  return data;
+}
+
+export async function fetchCartRemote(userId: string) {
+  const { data, error } = await supabase
+    .from('cart_items')
+    .select('*, products(title, price_cents, product_images(url))')
+    .eq('user_id', userId);
+  if (error) throw error;
+  return data || [];
+}
