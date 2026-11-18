@@ -1,6 +1,8 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
-    <main style={{ fontFamily: 'system-ui, -apple-system, sans-serif', color: '#134E4A', margin: 0, background: '#fff' }}>
+    <main style={{ color: '#134E4A', background: '#fff' }}>
       <section style={{ padding: '72px 24px 56px', textAlign: 'center', background: 'linear-gradient(180deg, #F0FDFA 0%, #fff 100%)' }}>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', margin: '0 0 16px', lineHeight: 1.2, fontWeight: 700 }}>
           Shop locally.<br />Delivered fast.
@@ -49,8 +51,8 @@ export default function Home() {
           <li>Place a demo order and track it</li>
         </ol>
         <p style={{ marginTop: '40px', fontSize: '14px' }}>
-          <a href="/privacy" style={{ color: '#0F766E', marginRight: '20px' }}>Privacy Policy</a>
-          <a href="/terms" style={{ color: '#0F766E' }}>Terms of Use</a>
+          <Link href="/privacy" style={{ color: '#0F766E', marginRight: '20px' }}>Privacy Policy</Link>
+          <Link href="/terms" style={{ color: '#0F766E' }}>Terms of Use</Link>
         </p>
       </section>
     </main>
