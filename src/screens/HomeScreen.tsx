@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
+import { Image } from 'expo-image';
 import { useNavigation } from '@react-navigation/native';
 import { fetchProducts, fetchCategories } from '../data/supabaseQueries';
 import { demoProducts, demoCategories } from '../data/demoData';
@@ -48,7 +49,7 @@ export function HomeScreen() {
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#FF4D00" />
+        <ActivityIndicator size="large" color="#0F766E" />
         <Text style={styles.muted}>Loading offers…</Text>
       </View>
     );
@@ -62,8 +63,8 @@ export function HomeScreen() {
       </View>
 
       <View style={styles.banner}>
-        <Text style={styles.bannerTitle}>FASHION STATEMENT</Text>
-        <Text style={styles.bannerSub}>Discover new arrivals</Text>
+        <Text style={styles.bannerTitle}>DISCOVER SOUKNOVA</Text>
+        <Text style={styles.bannerSub}>Shop local, delivered fast</Text>
       </View>
 
       <View style={styles.chips}>
@@ -79,26 +80,40 @@ export function HomeScreen() {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontal}>
         {categories.map((cat) => (
           <TouchableOpacity key={cat.id} style={styles.catCard}>
-            <Image source={{ uri: cat.image }} style={styles.catImage} />
+            <Image
+              source={{ uri: cat.image }}
+              style={styles.catImage}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+            />
             <Text style={styles.catName}>{cat.name}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
 
       <Text style={styles.sectionTitle}>Flash Sale</Text>
-      {products.map((p) => (
-        <TouchableOpacity
-          key={p.id}
-          style={styles.productCard}
-          onPress={() => navigation.navigate('ProductDetail', { product: p })}
-        >
-          <Image source={{ uri: p.images[0] }} style={styles.productImage} />
-          <View style={{ flex: 1, marginLeft: 12 }}>
-            <Text style={styles.productTitle}>{p.title}</Text>
-            <Text style={styles.price}>${p.price.toFixed(2)}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+      <FlatList
+        data={products}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.productCard}
+            onPress={() => navigation.navigate('ProductDetail', { product: item })}
+          >
+            <Image
+              source={{ uri: item.images[0] }}
+              style={styles.productImage}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+            />
+            <View style={{ flex: 1, marginLeft: 12 }}>
+              <Text style={styles.productTitle}>{item.title}</Text>
+              <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        scrollEnabled={false}
+      />
     </ScrollView>
   );
 }
@@ -115,8 +130,8 @@ const styles = StyleSheet.create({
   bannerSub: { color: '#6B7280', marginTop: 4 },
   chips: { flexDirection: 'row', paddingHorizontal: 16, marginTop: 16, gap: 8 },
   chip: { paddingHorizontal: 16, height: 40, borderRadius: 20, justifyContent: 'center' },
-  chipPrimary: { backgroundColor: '#FF4D00' },
-  chipSecondary: { backgroundColor: '#FF8C00' },
+  chipPrimary: { backgroundColor: '#0F766E' },
+  chipSecondary: { backgroundColor: '#14B8A6' },
   chipTextPrimary: { color: '#FFFFFF', fontWeight: '600' },
   sectionTitle: { fontSize: 20, fontWeight: '700', marginHorizontal: 16, marginTop: 24, marginBottom: 12 },
   horizontal: { paddingLeft: 16 },
@@ -126,5 +141,5 @@ const styles = StyleSheet.create({
   productCard: { flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, backgroundColor: '#FFFFFF', borderRadius: 12, padding: 12, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 4, elevation: 2 },
   productImage: { width: 80, height: 80, borderRadius: 8 },
   productTitle: { fontWeight: '600', color: '#1F2937' },
-  price: { color: '#FF4D00', fontWeight: '700', marginTop: 4 },
+  price: { color: '#0F766E', fontWeight: '700', marginTop: 4 },
 });
