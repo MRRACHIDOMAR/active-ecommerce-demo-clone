@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { Image } from 'expo-image';
 import { useCart } from '../context/CartContext';
 import { fetchProductById } from '../data/supabaseQueries';
 
@@ -58,14 +59,19 @@ export function ProductDetailScreen({ route }: any) {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#FF4D00" />
+        <ActivityIndicator size="large" color="#0F766E" />
       </View>
     );
   }
 
   return (
     <ScrollView style={styles.container}>
-      <Image source={{ uri: product.images?.[0] }} style={styles.image} />
+      <Image
+        source={{ uri: product.images?.[0] }}
+        style={styles.image}
+        contentFit="contain"
+        cachePolicy="memory-disk"
+      />
       <View style={styles.content}>
         <Text style={styles.title}>{product.title}</Text>
         <View style={styles.ratingRow}>
@@ -106,20 +112,20 @@ export function ProductDetailScreen({ route }: any) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
-  image: { width: '100%', height: 300, resizeMode: 'contain' },
+  image: { width: '100%', height: 300 },
   content: { padding: 16 },
   title: { fontSize: 18, fontWeight: '700', color: '#1F2937' },
   ratingRow: { flexDirection: 'row', marginVertical: 8 },
   muted: { color: '#6B7280' },
-  price: { fontSize: 20, fontWeight: '700', color: '#FF4D00', marginVertical: 8 },
+  price: { fontSize: 20, fontWeight: '700', color: '#0F766E', marginVertical: 8 },
   label: { marginVertical: 4, color: '#1F2937' },
   bold: { fontWeight: '600' },
   section: { marginTop: 16, fontWeight: '600' },
   colors: { flexDirection: 'row', marginTop: 8, gap: 8 },
   colorDot: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#E5E7EB', borderWidth: 2, borderColor: 'transparent' },
-  colorSelected: { borderColor: '#FF4D00' },
+  colorSelected: { borderColor: '#0F766E' },
   buttons: { flexDirection: 'row', marginTop: 24, gap: 12 },
-  btnPrimary: { flex: 1, height: 48, backgroundColor: '#FF4D00', borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
-  btnSecondary: { flex: 1, height: 48, backgroundColor: '#FF8C00', borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
+  btnPrimary: { flex: 1, height: 48, backgroundColor: '#0F766E', borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
+  btnSecondary: { flex: 1, height: 48, backgroundColor: '#14B8A6', borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
   btnText: { color: '#FFFFFF', fontWeight: '600' },
 });
