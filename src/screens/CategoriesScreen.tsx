@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Image } from 'expo-image';
 import { fetchCategories } from '../data/supabaseQueries';
 import { demoCategories } from '../data/demoData';
 
@@ -36,7 +37,7 @@ export function CategoriesScreen() {
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#FF4D00" />
+        <ActivityIndicator size="large" color="#0F766E" />
         <Text style={styles.muted}>Loading categories…</Text>
       </View>
     );
@@ -49,7 +50,12 @@ export function CategoriesScreen() {
       <View style={styles.grid}>
         {categories.map((cat) => (
           <TouchableOpacity key={cat.id} style={styles.item}>
-            <Image source={{ uri: cat.image }} style={styles.image} />
+            <Image
+              source={{ uri: cat.image }}
+              style={styles.image}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+            />
             <Text style={styles.name}>{cat.name}</Text>
           </TouchableOpacity>
         ))}
