@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { Image } from 'expo-image';
 import { useNavigation } from '@react-navigation/native';
 import { useCart } from '../context/CartContext';
 
@@ -22,7 +23,12 @@ export function CartScreen() {
       <Text style={styles.title}>Your Cart</Text>
       {items.map((item) => (
         <View key={item.productId + (item.color || '')} style={styles.item}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Image
+            source={{ uri: item.image }}
+            style={styles.image}
+            contentFit="cover"
+            cachePolicy="memory-disk"
+          />
           <View style={{ flex: 1, marginLeft: 12 }}>
             <Text style={styles.itemTitle}>{item.title}</Text>
             {item.color && <Text style={styles.muted}>Color: {item.color}</Text>}
@@ -63,14 +69,14 @@ const styles = StyleSheet.create({
   image: { width: 80, height: 80, borderRadius: 8 },
   itemTitle: { fontWeight: '600', color: '#1F2937' },
   muted: { color: '#6B7280', fontSize: 12 },
-  price: { color: '#FF4D00', fontWeight: '700', marginTop: 4 },
+  price: { color: '#0F766E', fontWeight: '700', marginTop: 4 },
   qtyRow: { flexDirection: 'row', alignItems: 'center', marginTop: 8 },
   qtyBtn: { fontSize: 20, paddingHorizontal: 8, color: '#1F2937' },
   qty: { marginHorizontal: 8, fontWeight: '600' },
   remove: { color: '#EF4444', fontSize: 12 },
   totalRow: { flexDirection: 'row', justifyContent: 'space-between', padding: 16 },
   totalLabel: { fontSize: 18, fontWeight: '600' },
-  totalValue: { fontSize: 18, fontWeight: '700', color: '#FF4D00' },
-  checkoutBtn: { margin: 16, height: 48, backgroundColor: '#FF4D00', borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
+  totalValue: { fontSize: 18, fontWeight: '700', color: '#0F766E' },
+  checkoutBtn: { margin: 16, height: 48, backgroundColor: '#0F766E', borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
   checkoutText: { color: '#FFFFFF', fontWeight: '600' },
 });
